@@ -23,6 +23,10 @@ end
 response = Net::HTTP.get(URI(url))
 feed = JSON.parse(response)
 
+if feed.class == Hash && feed['error']
+    abort feed['error']
+end
+
 feed.sort_by! { |post| post['publish_date'] }
 feed.reverse!
 
